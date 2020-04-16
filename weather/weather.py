@@ -110,7 +110,7 @@ def current_weather(city_id=3247449):
     return weather
 
 
-def twentyone_hours_weather(city_id=3247449):
+def x_hours_weather(hours,city_id=3247449):
     speicher = {}
     # timezones
     # Search for current weather in city(country)
@@ -120,7 +120,7 @@ def twentyone_hours_weather(city_id=3247449):
     f = fc.get_forecast()
     fc_lst = f.get_weathers()
     # kommende 21h analysieren
-    fc_lst = fc_lst[:7]
+    fc_lst = fc_lst[:(hours//3)]
 
     # maximale und minimale Temperatur mit Zeitangabe
     max_temp = {}
@@ -170,31 +170,38 @@ def twentyone_hours_weather(city_id=3247449):
     speicher['rain_time'] = rain_time
     speicher['rain_summ'] = rain_summ
 
-    # WIND analyisieren (6h)
-    time_six_hours = datetime.now() + timedelta(hours=6)
-    weather_six_hours = fc.get_weather_at(time_six_hours)
-    wind_six_hours = weather_six_hours.get_wind()
-    wind_six_hours = wind_analysieren(wind_six_hours)
-    time_six_hours = weather_six_hours.get_reference_time()
 
-    time_six_hours = timestamp_to_localtime(time_six_hours)
-
-    # WIND (6h) --> SPEICHER
-    speicher['wind_six_hours'] = wind_six_hours
-    speicher['time_six_hours'] = time_six_hours
-
-    # DETAILED STATUS (6h)
-    detailed_status_six_hours = weather_six_hours.get_detailed_status()
-
-    # DETAILED STATUS (6h) --> SPEICHER
-    speicher['detailed_status_six_hours'] = detailed_status_six_hours
 
     # return SPEICHER
     return speicher
     # SPEICHER untersuchen
     # for key, value in speicher.items():
     # print(key, ':', value)
+def wind_six_hours(city_id=3247449):
+    # WIND analyisieren (6h)
+    speicher = {}
+    owm = OWM(API_key)
+    fc = owm.three_hours_forecast_at_id(city_id)
+    #f = fc.get_forecast()
+    #fc_lst = f.get_weathers()
+    time_six_hours = datetime.now() + timedelta(hours=6)
+    weather_six_hours = fc.get_weather_at(time_six_hours)
+    wind_six_hours = weather_six_hours.get_wind()
+    wind_six_hours = wind_analysieren(wind_six_hours)
+    time_six_hours = weather_six_hours.get_reference_time()
+    time_six_hours = timestamp_to_localtime(time_six_hours)
 
+    # WIND (6h) --> SPEICHER
+    speicher['wind_six_hours'] = wind_six_hours
+    speicher['time_six_hours'] = time_six_hours
+    speicher['detailed_status'] = weather_six_hours.get_detailed_status()
+    return speicher
+
+    # DETAILED STATUS (6h)
+    detailed_status_six_hours = weather_six_hours.get_detailed_status()
+
+    # DETAILED STATUS (6h) --> SPEICHER
+    speicher['detailed_status_six_hours'] = detailed_status_six_hours
 
 def uvi_three_days(city_id=3247449):
     days = []
@@ -227,9 +234,19 @@ print('\ncurrent Weather:')
 for x, y in aachen.items():
     print(x, ':', y)
 
+print('\nweather forecast (next 6h):')
+next_six_hours = x_hours_weather(6)
+for x, y in next_six_hours.items():
+    print(x, ':', y)
+
 print('\nweather forecast (next 21h):')
-next_twentyone_hours = twentyone_hours_weather()
+next_twentyone_hours = x_hours_weather(21)
 for x, y in next_twentyone_hours.items():
+    print(x, ':', y)
+
+print('\nwind & weather in 6 hours:')
+wind_six_hours = wind_six_hours()
+for x, y in wind_six_hours.items():
     print(x, ':', y)
 
 print('\nUV Index forecast (next 3d):')

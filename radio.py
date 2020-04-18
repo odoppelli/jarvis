@@ -28,6 +28,10 @@ def next_radio():
     player.next()
 
 
+def previous_radio():
+    player.previous()
+
+
 def play_this_radio(radioid):
     if radioid not in radiosender:
         print("nonexistend radio ID.")

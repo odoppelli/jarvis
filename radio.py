@@ -1,6 +1,15 @@
 import vlc
 import time
 
+def min_to_sec(minutes):
+    seconds = (minutes * 60) // 1
+    return seconds
+
+def hour_to_sec(hours):
+    minutes = hours * 60
+    seconds = min_to_sec(minutes)
+    return seconds
+
 
 def play_radio():
     player.play()
@@ -23,8 +32,8 @@ def play_this_radio(radioid):
     if radioid not in radiosender:
         print("nonexistend radio ID.")
     else:
-        player.play_item_at_index(radiosender.get(radioid))
-        print('now playing:', radioid)
+        player.play_item_at_index(url_list.index(radiosender.get(radioid)))
+        print('now playing:', radioid ,'\n')
 
 
 radiosender = {
@@ -57,7 +66,8 @@ player.set_media_list(MediaList)
 # EXAMPLE
 print('Radio IDs:')
 for sender in radiosender:
-    print(sender, '\n')
+    print(sender)
+print()
 
 play_radio()
 time.sleep(15)
@@ -68,9 +78,9 @@ time.sleep(10)
 next_radio()
 time.sleep(10)
 play_this_radio('sex_musik')
-time.sleep(10)
-player.play_item_at_index('gustav')
-time.sleep(10)
+time.sleep(min_to_sec(1.5))
+play_this_radio('hochschulradio')
+time.sleep(min_to_sec(1))
 stop_radio()
 
 print('beendet')

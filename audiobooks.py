@@ -111,5 +111,4 @@ for x,y in b.items():
     print(x)
     for value in y:
         print (value)
-print (tracks_kanguru)
-print(tracks_hitchhiker)
+

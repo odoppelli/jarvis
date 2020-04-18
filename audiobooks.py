@@ -101,13 +101,13 @@ def playlist_erstellen(audiobook_playlist):
 
         
 # EXAMPLE             
-a= get_list_hitchhiker()
-for x,y in a.items():
+h= get_list_hitchhiker()
+for x,y in h.items():
     print(x)
     for value in y:
         print (value)
-b= get_list_kanguru()
-for x,y in b.items():
+k= get_list_kanguru()
+for x,y in k.items():
     print(x)
     for value in y:
         print (value)

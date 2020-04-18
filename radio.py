@@ -87,4 +87,3 @@ play_this_radio('hochschulradio')
 time.sleep(min_to_sec(1))
 stop_radio()
 
-print('beendet')

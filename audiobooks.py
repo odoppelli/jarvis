@@ -39,10 +39,11 @@ def get_list_kanguru():
     for track in kanguru_list:
         kanguru_list_path.append(os.path.abspath(track))
     kanguru = {}
+    intertvall = 5
     abteilungen_counter = 1
     tracks = len(kanguru_list_path)
     tracks_counter = 1
-    abteilungen = (tracks // 10) +1
+    abteilungen = (tracks // intervall) +1
     while abteilungen_counter <= abteilungen:
         tmp = str(abteilungen_counter)
         kanguru[tmp] = []
@@ -50,7 +51,7 @@ def get_list_kanguru():
     kanguru['1'] = [kanguru_list_path[0]]
     abteilungen_counter = 1
     while tracks_counter < tracks:
-        if (tracks_counter % 10) == 0:
+        if (tracks_counter % intervall) == 0:
             abteilungen_counter += 1
         abteilung = str(abteilungen_counter)
         kanguru[abteilung].append(kanguru_list_path[tracks_counter])
@@ -66,10 +67,11 @@ def get_list_hitchhiker():
     for track in hitchhiker_list:
         hitchhiker_list_path.append(os.path.abspath(track))
     hitchhiker = {}
+    intervall = 5
     abteilungen_counter = 1
     tracks = len(hitchhiker_list_path)
     tracks_counter = 1
-    abteilungen = (tracks // 10) +1
+    abteilungen = (tracks // intervall) +1
     while abteilungen_counter <= abteilungen:
         tmp = str(abteilungen_counter)
         hitchhiker[tmp] = []
@@ -77,7 +79,7 @@ def get_list_hitchhiker():
     hitchhiker['1'] = [hitchhiker_list_path[0]]
     abteilungen_counter = 1
     while tracks_counter < tracks:
-        if (tracks_counter % 10) == 0:
+        if (tracks_counter % intervall) == 0:
             abteilungen_counter += 1
         abteilung = str(abteilungen_counter)
         hitchhiker[abteilung].append(hitchhiker_list_path[tracks_counter])

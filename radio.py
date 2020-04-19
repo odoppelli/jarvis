@@ -28,6 +28,10 @@ def next_radio():
     player.next()
 
 
+def previous_radio():
+    player.previous()
+
+
 def play_this_radio(radioid):
     if radioid not in radiosender:
         print("nonexistend radio ID.")
@@ -83,4 +87,3 @@ play_this_radio('hochschulradio')
 time.sleep(min_to_sec(1))
 stop_radio()
 
-print('beendet')

@@ -7,6 +7,12 @@ from pytz import timezone
 API_key = '0aae76c69be7475fdd85253f2bf60ddf'
 
 
+def round_num_totwo(number):
+    rest = number % 0.01
+    rounded_number = number - rest
+    return rounded_number
+
+
 def timestamp_to_localtime(timestamp):
     utc = pytz.utc
     aachen_timezone = timezone('Europe/Berlin')
@@ -29,16 +35,23 @@ def timestamp_to_localtime_v2(timestamp):
 
 def wind_analysieren(wind):
     deg_available = True
-    values = []
-    for key, value in wind.items():
-        values.append(value)
-    if len(values) == 1:
-        values.append(666)
+    gust_available = True
+    if 'deg' not in wind:
+        wind_richtung = 666
         deg_available = False
-    wind_kmh = values[0] * 3.6
-    wind_richtung = values[1]
+    else:
+        wind_richtung = wind.get('deg')
 
-    if (337.5 < wind_richtung <= 360) or (0 <= wind_richtung < 22.5):
+    if 'gust' not in wind:
+        gust_available = False
+    else:
+        wind_boe_kmh = wind.get('gust') * 3.6
+        wind_boe_kmh = round_num_totwo(wind_boe_kmh)
+
+    wind_kmh = wind.get('speed') * 3.6
+    wind_kmh = round_num_totwo(wind_kmh)
+
+    if (337.5 < wind_richtung <= 360) or (1 <= wind_richtung < 22.5):
         wind_richtung = 'N'
     elif 22.5 < wind_richtung < 67.5:
         wind_richtung = 'NO'
@@ -61,10 +74,12 @@ def wind_analysieren(wind):
     wind['direction'] = wind_richtung
     if deg_available:
         wind.pop('deg')
+    if gust_available:
+        wind['gust'] = wind_boe_kmh
     return wind
 
 
-def current_weather(city_id=3247449):
+def current_weather(city_id=6553047):
     # Search for current weather in city(country)
     # Aachen : 3247449
     owm = OWM(API_key)
@@ -75,6 +90,7 @@ def current_weather(city_id=3247449):
     weather = {}
     # WEATHER DETAILS
     wind = w.get_wind()
+    print('wind:',wind)
     # humidity = w.get_humidity()
     temperature = w.get_temperature('celsius')
     clouds = w.get_clouds()
@@ -110,7 +126,7 @@ def current_weather(city_id=3247449):
     return weather
 
 
-def x_hours_weather(hours,city_id=3247449):
+def x_hours_weather(hours, city_id=6553047):
     speicher = {}
     # timezones
     # Search for current weather in city(country)
@@ -120,7 +136,7 @@ def x_hours_weather(hours,city_id=3247449):
     f = fc.get_forecast()
     fc_lst = f.get_weathers()
     # kommende 21h analysieren
-    fc_lst = fc_lst[:(hours//3)]
+    fc_lst = fc_lst[:(hours // 3)]
 
     # maximale und minimale Temperatur mit Zeitangabe
     max_temp = {}
@@ -170,20 +186,20 @@ def x_hours_weather(hours,city_id=3247449):
     speicher['rain_time'] = rain_time
     speicher['rain_summ'] = rain_summ
 
-
-
     # return SPEICHER
     return speicher
     # SPEICHER untersuchen
     # for key, value in speicher.items():
     # print(key, ':', value)
-def wind_six_hours(city_id=3247449):
+
+
+def wind_six_hours(city_id=6553047):
     # WIND analyisieren (6h)
     speicher = {}
     owm = OWM(API_key)
     fc = owm.three_hours_forecast_at_id(city_id)
-    #f = fc.get_forecast()
-    #fc_lst = f.get_weathers()
+    # f = fc.get_forecast()
+    # fc_lst = f.get_weathers()
     time_six_hours = datetime.now() + timedelta(hours=6)
     weather_six_hours = fc.get_weather_at(time_six_hours)
     wind_six_hours = weather_six_hours.get_wind()
@@ -203,7 +219,8 @@ def wind_six_hours(city_id=3247449):
     # DETAILED STATUS (6h) --> SPEICHER
     speicher['detailed_status_six_hours'] = detailed_status_six_hours
 
-def uvi_three_days(city_id=3247449):
+
+def uvi_three_days(city_id=6553047):
     days = []
     owm = OWM(API_key)
     obs = owm.weather_at_id(city_id)
@@ -229,7 +246,7 @@ def uvi_three_days(city_id=3247449):
 
 
 # Requests
-aachen = current_weather(3247449)
+aachen = current_weather(6553047)
 print('\ncurrent Weather:')
 for x, y in aachen.items():
     print(x, ':', y)

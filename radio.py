@@ -37,7 +37,7 @@ def play_this_radio(radioid):
         print("nonexistend radio ID.")
     else:
         player.play_item_at_index(url_list.index(radiosender.get(radioid)))
-        print('now playing:', radioid ,'\n')
+        print('now playing:', radioid, '\n')
 
 
 radiosender = {
@@ -50,7 +50,6 @@ radiosender = {
     'sex_musik': 'http://sex-high.rautemusik.fm/',
     'happy_musik': 'http://happy-high.rautemusik.fm/',
     'eins_live': 'http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3',
-    'wdr2': 'http://wdr-wdr2-aachenundregion.icecast.wdr.de/wdr2/aachenundregion/mp3/128/stream.mp3'
 }
 
 url_list = []
@@ -74,16 +73,12 @@ for sender in radiosender:
 print()
 
 play_radio()
-time.sleep(15)
-pause_radio()
-time.sleep(5)
-play_radio()
-time.sleep(10)
-next_radio()
 time.sleep(10)
 play_this_radio('sex_musik')
-time.sleep(min_to_sec(1.5))
-play_this_radio('hochschulradio')
-time.sleep(min_to_sec(1))
+time.sleep(20)
+play_this_radio('eins_live')
+time.sleep(20)
+next_radio()
+time.sleep(20)
 stop_radio()
 

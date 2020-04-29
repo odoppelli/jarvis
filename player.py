@@ -138,7 +138,7 @@ class HitchhikersGuide(WeckerPlayer):
 
 
 # BEISPIEL | TEST
-'''
+
 wecker = WeckerRadio()
 wecker.play_media()
 time.sleep(20)
@@ -157,7 +157,7 @@ time.sleep(10)
 kanguru2.next_media()
 time.sleep(10)
 kanguru2.stop_media()
-'''
+
 
 kanguru3 = KanguruOffenbarung(1)
 kanguru3.play_media()

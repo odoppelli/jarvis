@@ -129,15 +129,16 @@ class HitchhikersGuide(WeckerPlayer):
             '4': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 4]"
         }
         d = cds.get(str(cd_number))
-        kanguru_paths = []
+        hitchhiker_paths = []
         for path in os.listdir(d):
             full_path = os.path.join(d, path)
             if os.path.isfile(full_path):
-                kanguru_paths.append(full_path)
-        super().__init__(kanguru_paths)
+                hitchhiker_paths.append(full_path)
+        super().__init__(hitchhiker_paths)
 
 
 # BEISPIEL | TEST
+'''
 wecker = WeckerRadio()
 wecker.play_media()
 time.sleep(20)
@@ -156,6 +157,7 @@ time.sleep(10)
 kanguru2.next_media()
 time.sleep(10)
 kanguru2.stop_media()
+'''
 
 kanguru3 = KanguruOffenbarung(1)
 kanguru3.play_media()

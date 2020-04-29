@@ -6,6 +6,7 @@ import os
 class WeckerPlayer:
     def __init__(self, playlist):
         self.Playlist = playlist
+        self.Instance = vlc.Instance('--input-repeat=-1', '--fullscreen')
         self.MediaList = self.Instance.media_list_new()
 
         for track in self.Playlist:
@@ -50,21 +51,23 @@ class WeckerRadio(WeckerPlayer):
         super().__init__(url_list)
 
 
-class HitchhikersGuide(WeckerPlayer):
+class KanguruChroniken(WeckerPlayer):
     def __init__(self, cd_number):
         cds = {
-            '1': "/home/pi/Audiobooks/The_Hitchhikers_Guide_to_the_Galaxy/The_Hitchhiker's_Guide_To_The_Galaxy_Disc1",
-            '2': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 2]",
-            '3': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 3]",
-            '4': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 4]",
-            '5': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 5]"
+            '1': "/home/pi/Audiobooks/Die Känguru Chroniken/Marc-Uwe Kling- Die Känguru-Chroniken. CD 1",
+            '2': "/home/pi/Audiobooks/Die Känguru Chroniken/Marc-Uwe Kling- Die Känguru-Chroniken. CD 2",
+            '3': "/home/pi/Audiobooks/Die Känguru Chroniken/Marc-Uwe Kling- Die Känguru-Chroniken. CD 3",
+            '4': "/home/pi/Audiobooks/Die Känguru Chroniken/Marc-Uwe Kling- Die Känguru-Chroniken. CD 4",
+
             }
-        hitchhiker_list = os.listdir(cds.get(str(cd_number)))
-        hitchhiker_list.sort()
-        hitchhiker_list_path = []
-        for track in hitchhiker_list:
-            hitchhiker_list_path.append(os.path.abspath(track))
-        super().__init__(hitchhiker_list_path)
+        d = cds.get(str(cd_number))
+        kanguru_paths = []
+        for path in os.listdir(d):
+            full_path = os.path.join(d,path)
+            if os.path.isfile(full_path):
+                kanguru_paths.append(full_path)
+                
+        super().__init__(kanguru_paths)
 
 # BEISPIEL
 #wecker = WeckerRadio()
@@ -72,7 +75,9 @@ class HitchhikersGuide(WeckerPlayer):
 #time.sleep(20)
 #wecker.stop_media()
 
-hitchhiker = HitchhikersGuide(1)
-hitchhiker.play_media()
-time.sleep(40)
-hitchhiker.stop_media()
+kanguru = KanguruChroniken(1)
+kanguru.play_media()
+time.sleep(20)
+kanguru.next_media()
+time.sleep(20)
+kanguru.stop_media()

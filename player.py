@@ -1,11 +1,11 @@
 import vlc
 import time
+import os
 
 
 class WeckerPlayer:
     def __init__(self, playlist):
         self.Playlist = playlist
-        self.Instance = vlc.Instance('--input-repeat=-1', '--fullscreen')
         self.MediaList = self.Instance.media_list_new()
 
         for track in self.Playlist:
@@ -50,7 +50,29 @@ class WeckerRadio(WeckerPlayer):
         super().__init__(url_list)
 
 
-wecker = WeckerRadio()
-wecker.play_media()
-time.sleep(20)
-wecker.stop_media()
+class HitchhikersGuide(WeckerPlayer):
+    def __init__(self, cd_number):
+        cds = {
+            '1': "/home/pi/Audiobooks/The_Hitchhikers_Guide_to_the_Galaxy/The_Hitchhiker's_Guide_To_The_Galaxy_Disc1",
+            '2': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 2]",
+            '3': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 3]",
+            '4': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 4]",
+            '5': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 5]"
+            }
+        hitchhiker_list = os.listdir(cds.get(str(cd_number)))
+        hitchhiker_list.sort()
+        hitchhiker_list_path = []
+        for track in hitchhiker_list:
+            hitchhiker_list_path.append(os.path.abspath(track))
+        super().__init__(hitchhiker_list_path)
+
+# BEISPIEL
+#wecker = WeckerRadio()
+#wecker.play_media()
+#time.sleep(20)
+#wecker.stop_media()
+
+hitchhiker = HitchhikersGuide(1)
+hitchhiker.play_media()
+time.sleep(40)
+hitchhiker.stop_media()

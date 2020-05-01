@@ -45,11 +45,11 @@ def wind_analysieren(wind):
     if 'gust' not in wind:
         gust_available = False
     else:
-        wind_boe_kmh = wind.get('gust') * 3.6
+        wind_boe_kmh = int(wind.get('gust') * 3.6)
         wind_boe_kmh = round_num_totwo(wind_boe_kmh)
 
     wind_kmh = wind.get('speed') * 3.6
-    wind_kmh = round_num_totwo(wind_kmh)
+    wind_kmh = int(wind_kmh)
 
     if (337.5 < wind_richtung <= 360) or (1 <= wind_richtung < 22.5):
         wind_richtung = 'N'
@@ -176,7 +176,7 @@ def x_hours_weather(hours, city_id=6553047):
     # print(key, ':', value)
 
 
-def weather_in_x_hours(hours,city_id=6553047):
+def get_weather_in_x_hours(hours,city_id=6553047):
     # WIND analyisieren (6h)
     speicher = {}
     owm = OWM(API_key)

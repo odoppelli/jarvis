@@ -353,6 +353,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.update_current_weather()
+        self.update_other_weather()
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -391,6 +392,7 @@ class Ui_MainWindow(object):
     def update_current_weather(self):
         current_weather = weather.get_current_weather()
         time = current_weather.get('time')
+        temperature = current_weather.get('temperature')
         wind_speed = current_weather.get('wind').get('speed')
         wind_direction = current_weather.get('wind').get('direction')
         icon = current_weather.get('icon')
@@ -399,21 +401,137 @@ class Ui_MainWindow(object):
         if '1h' in current_weather.get('rain'):
             rain = current_weather.get('rain').get('1h')
             rain_time = '1h'
+            norain = False
         elif '2h' in current_weather.get('rain'):
             rain = current_weather.get('rain').get('2h')
             rain_time = '2h'
+            norain = False
         elif '3h' in current_weather.get('rain'):
             rain = current_weather.get('rain').get('3h')
             rain_time = '3h'
+            norain = False
         else:
             rain = "---"
-
+            norain = True
         self.uhrzeit1.setText("{}".format(time))
-        #self.image1.
-        self.temperatur1.setText("{}°C".format(current_weather.get('temperature')))
-        self.wind1.setText("{} : {}".format(wind_speed, wind_direction))
-        self.regen1.setText("{} in {}".format(rain, rain_time))
+        self.temperatur1.setText("{}°C".format(temperature))
+        self.wind1.setText("{}kmh {}".format(wind_speed, wind_direction))
+        if norain:
+            self.regen1.setText("{}".format(rain))
+        else:
+            self.regen1.setText("{} in {}".format(rain, rain_time))
         self.image1.setPixmap(QtGui.QPixmap(icon))
+
+    def update_other_weather(self):
+        # DREI STUNDEN
+        forecast2 = weather.get_weather_in_x_hours(1)
+        time = forecast2.get('time')
+        temperature = forecast2.get('temperature')
+        wind_speed = forecast2.get('wind').get('speed')
+        wind_direction = forecast2.get('wind').get('direction')
+        icon = forecast2.get('icon')
+        icon = "icons/" + icon + ".png"
+        # rain
+        if '3h' in forecast2.get('rain'):
+            rain = forecast2.get('rain').get('3h')
+            rain_time = '3h'
+            self.regen2.setText("{} in {}".format(rain, rain_time))
+        else:
+            rain = "---"
+            self.regen2.setText("{}".format(rain))
+
+        self.uhrzeit2.setText("{}".format(time))
+        self.temperatur2.setText("{}°C".format(temperature))
+        self.wind2.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.image2.setPixmap(QtGui.QPixmap(icon))
+
+        # SECHS STUNDEN
+        forecast3 = weather.get_weather_in_x_hours(4)
+        time = forecast3.get('time')
+        temperature = forecast3.get('temperature')
+        wind_speed = forecast3.get('wind').get('speed')
+        wind_direction = forecast3.get('wind').get('direction')
+        icon = forecast3.get('icon')
+        icon = "icons/" + icon + ".png"
+        # rain
+        if '3h' in forecast3.get('rain'):
+            rain = forecast3.get('rain').get('3h')
+            rain_time = '3h'
+            self.regen3.setText("{} in {}".format(rain, rain_time))
+        else:
+            rain = "---"
+            self.regen3.setText("{}".format(rain))
+
+        self.uhrzeit3.setText("{}".format(time))
+        self.temperatur3.setText("{}°C".format(temperature))
+        self.wind3.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.image3.setPixmap(QtGui.QPixmap(icon))
+
+        # NEUN STUNDEN
+        forecast4 = weather.get_weather_in_x_hours(7)
+        time = forecast4.get('time')
+        temperature = forecast4.get('temperature')
+        wind_speed = forecast4.get('wind').get('speed')
+        wind_direction = forecast4.get('wind').get('direction')
+        icon = forecast4.get('icon')
+        icon = "icons/" + icon + ".png"
+        # rain
+        if '3h' in forecast4.get('rain'):
+            rain = forecast4.get('rain').get('3h')
+            rain_time = '3h'
+            self.regen4.setText("{} in {}".format(rain, rain_time))
+        else:
+            rain = "---"
+            self.regen4.setText("{}".format(rain))
+
+        self.uhrzeit4.setText("{}".format(time))
+        self.temperatur4.setText("{}°C".format(temperature))
+        self.wind4.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.image4.setPixmap(QtGui.QPixmap(icon))
+
+        # ZWÖLF STUNDEN
+        forecast5 = weather.get_weather_in_x_hours(10)
+        time = forecast5.get('time')
+        temperature = forecast5.get('temperature')
+        wind_speed = forecast5.get('wind').get('speed')
+        wind_direction = forecast5.get('wind').get('direction')
+        icon = forecast5.get('icon')
+        icon = "icons/" + icon + ".png"
+        # rain
+        if '3h' in forecast5.get('rain'):
+            rain = forecast5.get('rain').get('3h')
+            rain_time = '3h'
+            self.regen5.setText("{} in {}".format(rain, rain_time))
+        else:
+            rain = "---"
+            self.regen5.setText("{}".format(rain))
+
+        self.uhrzeit5.setText("{}".format(time))
+        self.temperatur5.setText("{}°C".format(temperature))
+        self.wind5.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.image5.setPixmap(QtGui.QPixmap(icon))
+
+        # 15 STUNDEN
+        forecast6 = weather.get_weather_in_x_hours(13)
+        time = forecast6.get('time')
+        temperature = forecast6.get('temperature')
+        wind_speed = forecast6.get('wind').get('speed')
+        wind_direction = forecast6.get('wind').get('direction')
+        icon = forecast6.get('icon')
+        icon = "icons/" + icon + ".png"
+        # rain
+        if '3h' in forecast6.get('rain'):
+            rain = forecast6.get('rain').get('3h')
+            rain_time = '3h'
+            self.regen6.setText("{} in {}".format(rain, rain_time))
+        else:
+            rain = "---"
+            self.regen6.setText("{}".format(rain))
+
+        self.uhrzeit6.setText("{}".format(time))
+        self.temperatur6.setText("{}°C".format(temperature))
+        self.wind6.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.image6.setPixmap(QtGui.QPixmap(icon))
 
 
 if __name__ == "__main__":
@@ -422,4 +540,10 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
+
+    timer = QtCore.QTimer()
+    timer.timeout.connect(ui.update_other_weather)
+    timer.timeout.connect(ui.update_current_weather)
+    timer.start(300000)
+
     sys.exit(app.exec_())

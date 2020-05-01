@@ -79,9 +79,8 @@ def wind_analysieren(wind):
     return wind
 
 
-def current_weather(city_id=6553047):
+def get_current_weather(city_id=6553047):
     # Search for current weather in city(country)
-    # Aachen : 3247449
     owm = OWM(API_key)
     observation = owm.weather_at_id(city_id)
     w = observation.get_weather()
@@ -90,38 +89,22 @@ def current_weather(city_id=6553047):
     weather = {}
     # WEATHER DETAILS
     wind = w.get_wind()
-    print('wind:',wind)
-    # humidity = w.get_humidity()
-    temperature = w.get_temperature('celsius')
-    clouds = w.get_clouds()
-    rain = w.get_rain()
-    # pressure = w.get_pressure()
-    snow = w.get_snow()
-    detailed_weather_status = w.get_detailed_status()
-    # weather_status = w.get_status()
-    '''
-    sunset = w.get_sunset_time()
-    ts_sunset = int(sunset)
-    sunset = datetime.utcfromtimestamp(ts_sunset).strftime('%Y-%m-%d %H:%M:%S')
-    sunrise = w.get_sunrise_time()
-    ts_sunrise = int(sunrise)
-    sunrise = datetime.utcfromtimestamp(ts_sunrise).strftime('%Y-%m-%d %H:%M:%S')
-    '''
-    # WIND analysieren
     wind = wind_analysieren(wind)
+    temperature = w.get_temperature('celsius')
+    temperature = temperature.get('temp')
+    rain = w.get_rain()
+    timestamp = w.get_reference_time()
+    time = timestamp_to_localtime(timestamp)
+    icon = w.get_weather_icon_name()
+
 
     # daten einspeichern
-    # weather['status'] = weather_status
-    weather['detailed_status'] = detailed_weather_status
-    weather['temperature'] = temperature.get('temp')
-    # weather['humidity'] = humidity
-    # weather['pressure'] = pressure.get('press')
+    weather['time'] = time
+    weather['icon'] = icon
+    weather['temperature'] = temperature
     weather['wind'] = wind
-    weather['clouds'] = clouds
     weather['rain'] = rain
-    weather['snow'] = snow
-    # weather['sunrise'] = sunrise
-    # weather['sunset'] = sunset
+
 
     return weather
 
@@ -201,22 +184,27 @@ def weather_in_x_hours(hours,city_id=6553047):
     # f = fc.get_forecast()
     # fc_lst = f.get_weathers()
     time_six_hours = datetime.now() + timedelta(hours=hours)
-    weather_six_hours = fc.get_weather_at(time_six_hours)
-    wind_six_hours = weather_six_hours.get_wind()
-    wind_six_hours = wind_analysieren(wind_six_hours)
-    time_six_hours = weather_six_hours.get_reference_time()
-    time_six_hours = timestamp_to_localtime(time_six_hours)
+    weather_in_hours = fc.get_weather_at(time_six_hours)
 
-    # WIND (6h) --> SPEICHER
-    speicher['wind_six_hours'] = wind_six_hours
-    speicher['time_six_hours'] = time_six_hours
-    speicher['detailed_status'] = weather_six_hours.get_detailed_status()
+    wind_in_hours = weather_in_hours.get_wind()
+    wind_in_hours = wind_analysieren(wind_in_hours)
 
-    # DETAILED STATUS (6h)
-    detailed_status_six_hours = weather_six_hours.get_detailed_status()
+    time_in_hours = weather_in_hours.get_reference_time()
+    time_in_hours = timestamp_to_localtime(time_in_hours)
 
-    # DETAILED STATUS (6h) --> SPEICHER
-    speicher['detailed_status_six_hours'] = detailed_status_six_hours
+    rain_in_hours = weather_in_hours.get_rain()
+    temperature_in_hours = weather_in_hours.get_temperature(unit='celsius')
+    temperature_in_hours = temperature_in_hours.get('temp')
+    icon_in_hours = weather_in_hours.get_weather_icon_name()
+
+    # WIND | Time | Rain | Temperature | icon  --> SPEICHER
+    speicher['time'] = time_in_hours
+    speicher['icon'] = icon_in_hours
+    speicher['temperature'] = temperature_in_hours
+    speicher['wind'] = wind_in_hours
+    speicher['rain'] = rain_in_hours
+
+
 
     return speicher
 
@@ -247,11 +235,11 @@ def uvi_three_days(city_id=6553047):
 
 
 # Requests
-aachen = current_weather(6553047)
+aachen = get_current_weather(6553047)
 print('\ncurrent Weather:')
 for x, y in aachen.items():
     print(x, ':', y)
-
+'''
 print('\nweather forecast (next 6h):')
 next_six_hours = x_hours_weather(6)
 for x, y in next_six_hours.items():
@@ -273,6 +261,7 @@ for day in uvi:
     for x, y in day.items():
         print(x, ':', y)
     print()
+'''
 
 '''
 {

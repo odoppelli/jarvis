@@ -437,7 +437,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def update_other_weather(self):
         # DREI STUNDEN
-        forecast2 = weather.get_weather_in_x_hours(0.1)
+        forecast2 = weather.get_weather_in_x_hours(0)
         time = forecast2.get('time')
         temperature = forecast2.get('temperature')
         wind_speed = forecast2.get('wind').get('speed')
@@ -459,7 +459,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image2.setPixmap(QtGui.QPixmap(icon))
 
         # SECHS STUNDEN
-        forecast3 = weather.get_weather_in_x_hours(3.1)
+        forecast3 = weather.get_weather_in_x_hours(3)
         time = forecast3.get('time')
         temperature = forecast3.get('temperature')
         wind_speed = forecast3.get('wind').get('speed')
@@ -481,7 +481,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image3.setPixmap(QtGui.QPixmap(icon))
 
         # NEUN STUNDEN
-        forecast4 = weather.get_weather_in_x_hours(6.1)
+        forecast4 = weather.get_weather_in_x_hours(6)
         time = forecast4.get('time')
         temperature = forecast4.get('temperature')
         wind_speed = forecast4.get('wind').get('speed')
@@ -503,7 +503,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image4.setPixmap(QtGui.QPixmap(icon))
 
         # ZWÖLF STUNDEN
-        forecast5 = weather.get_weather_in_x_hours(9.1)
+        forecast5 = weather.get_weather_in_x_hours(9)
         time = forecast5.get('time')
         temperature = forecast5.get('temperature')
         wind_speed = forecast5.get('wind').get('speed')
@@ -525,7 +525,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image5.setPixmap(QtGui.QPixmap(icon))
 
         # 15 STUNDEN
-        forecast6 = weather.get_weather_in_x_hours(12.1)
+        forecast6 = weather.get_weather_in_x_hours(12)
         time = forecast6.get('time')
         temperature = forecast6.get('temperature')
         wind_speed = forecast6.get('wind').get('speed')

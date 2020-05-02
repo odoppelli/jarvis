@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 443)
         MainWindow.setAutoFillBackground(False)
         MainWindow.setStyleSheet("background-color:rgb(174, 174, 174);\n"
-        "color: white;")
+                                 "color: white;")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frameWeather = QtWidgets.QFrame(self.centralwidget)
@@ -262,7 +262,7 @@ class Ui_MainWindow(object):
         self.nextButton = QtWidgets.QPushButton(self.frame)
         self.nextButton.setGeometry(QtCore.QRect(700, 130, 50, 50))
         self.nextButton.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
-        "border : none;")
+                                      "border : none;")
         self.nextButton.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("icons/next.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -279,7 +279,7 @@ class Ui_MainWindow(object):
         self.previousButton = QtWidgets.QPushButton(self.frame)
         self.previousButton.setGeometry(QtCore.QRect(530, 130, 50, 50))
         self.previousButton.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
-        "border : none;")
+                                          "border : none;")
         self.previousButton.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("icons/previous.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -290,7 +290,7 @@ class Ui_MainWindow(object):
         self.playpauseButton.setGeometry(QtCore.QRect(610, 125, 60, 60))
         self.playpauseButton.setAutoFillBackground(False)
         self.playpauseButton.setStyleSheet("background-color: rgba(255, 255, 255, 0);\n"
-        "border : none;")
+                                           "border : none;")
         self.playpauseButton.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -311,8 +311,8 @@ class Ui_MainWindow(object):
         font.setFamily("Verdana")
         self.auswahlbox2.setFont(font)
         self.auswahlbox2.setStyleSheet("background-color: rgb(220, 217, 222);\n"
-        "border-radius: 10px;\n"
-        "color: black;")
+                                       "border-radius: 10px;\n"
+                                       "color: black;")
         self.auswahlbox2.setObjectName("auswahlbox2")
         self.auswahlbox3 = QtWidgets.QComboBox(self.frame)
         self.auswahlbox3.setGeometry(QtCore.QRect(20, 100, 225, 30))
@@ -320,8 +320,8 @@ class Ui_MainWindow(object):
         font.setFamily("Verdana")
         self.auswahlbox3.setFont(font)
         self.auswahlbox3.setStyleSheet("background-color: rgb(220, 217, 222);\n"
-        "border-radius: 10px;\n"
-        "color: black;")
+                                       "border-radius: 10px;\n"
+                                       "color: black;")
         self.auswahlbox3.setObjectName("auswahlbox3")
         self.auswahlbox1 = QtWidgets.QComboBox(self.frame)
         self.auswahlbox1.setGeometry(QtCore.QRect(20, 10, 225, 30))
@@ -330,16 +330,16 @@ class Ui_MainWindow(object):
         self.auswahlbox1.setFont(font)
         self.auswahlbox1.setAutoFillBackground(False)
         self.auswahlbox1.setStyleSheet("background-color: rgb(220, 217, 222);\n"
-        "border-radius: 10px;\n"
-        "color: black;")
+                                       "border-radius: 10px;\n"
+                                       "color: black;")
         self.auswahlbox1.setObjectName("auswahlbox1")
         self.auswahlbox1.addItem("")
         self.auswahlbox1.addItem("")
         self.loadButton = QtWidgets.QPushButton(self.frame)
         self.loadButton.setGeometry(QtCore.QRect(70, 150, 120, 30))
         self.loadButton.setStyleSheet("border-radius : 10px;\n"
-        "background-color: rgb(226, 224, 228);\n"
-        "color: black;")
+                                      "background-color: rgb(226, 224, 228);\n"
+                                      "color: black;")
         self.loadButton.setObjectName("loadButton")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -352,18 +352,6 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        self.update_current_weather()
-        self.update_other_weather()
-        self.update_current_time()
-
-        timer = QtCore.QTimer()
-        timer.timeout.connect(self.update_other_weather)
-        timer.timeout.connect(self.update_current_weather)
-        timer.timeout.connect(self.update_current_time)
-        timer.start(30000)
-
-
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -397,6 +385,19 @@ class Ui_MainWindow(object):
         self.auswahlbox1.setItemText(0, _translate("MainWindow", "Radio"))
         self.auswahlbox1.setItemText(1, _translate("MainWindow", "Audiobook"))
         self.loadButton.setText(_translate("MainWindow", "load"))
+
+
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self, parent=None):
+        super(MainWindow, self).__init__(parent=parent)
+        self.setupUi(self)
+        timerTime = QtCore.QTimer(self)
+        timerTime.timeout.connect(self.update_current_time)
+        timerTime.start(1000)
+        timerWeather = QtCore.QTimer(self)
+        timerWeather.timeout.connect(self.update_current_weather)
+        timerWeather.timeout.connect(self.update_other_weather)
+        timerWeather.start(60000)
 
 
     def update_current_weather(self):
@@ -547,13 +548,13 @@ class Ui_MainWindow(object):
         current_time = datetime.datetime.now()
         current_time = current_time.strftime("%H:%M")
         self.currentTime.setText(current_time)
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-
-
 
     sys.exit(app.exec_())

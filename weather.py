@@ -111,6 +111,7 @@ def get_current_weather(city_id=6553047):
 
 def x_hours_weather(hours, city_id=6553047):
     speicher = {}
+    counter = 1
     # timezones
     # Search for current weather in city(country)
     # Aachen : 3247449
@@ -122,6 +123,7 @@ def x_hours_weather(hours, city_id=6553047):
     fc_lst = fc_lst[:(hours // 3)]
 
     # maximale und minimale Temperatur mit Zeitangabe
+    '''
     max_temp = {}
     min_temp = {}
     max_temperature = fc_lst[0].get_temperature('celsius')['temp']
@@ -145,11 +147,11 @@ def x_hours_weather(hours, city_id=6553047):
     max_temp['time'] = max_aachen_time
     min_temp['temp'] = min_temperature
     min_temp['time'] = min_aachen_time
-
+    
     # Temperaturen --> SPEICHER
     speicher['max_temp'] = max_temp
     speicher['min_temp'] = min_temp
-
+    
     # Regen analysieren
     rain_all = {}
     rain_time = []
@@ -168,6 +170,28 @@ def x_hours_weather(hours, city_id=6553047):
     speicher['rain_all'] = rain_all
     speicher['rain_time'] = rain_time
     speicher['rain_summ'] = rain_summ
+    '''
+    for forecast in fc_lst:
+        speicher[str(counter)] = {}
+
+        wind = forecast.get_wind()
+        wind = wind_analysieren(wind)
+
+        time = forecast.get_reference_time()
+        time = timestamp_to_localtime(time)
+
+        rain = forecast.get_rain()
+        temperature = forecast.get_temperature(unit='celsius')
+        temperature = temperature.get('temp')
+        icon = forecast.get_weather_icon_name()
+
+        speicher.get(str(counter))['time'] = time
+        speicher.get(str(counter))['icon'] = icon
+        speicher.get(str(counter))['temperature'] = temperature
+        speicher.get(str(counter))['wind'] = wind
+        speicher.get(str(counter))['rain'] = rain
+
+        counter += 1
 
     # return SPEICHER
     return speicher

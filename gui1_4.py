@@ -436,8 +436,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image1.setPixmap(QtGui.QPixmap(icon))
 
     def update_other_weather(self):
+        forecast = weather.x_hours_weather(15)
+
         # DREI STUNDEN
-        forecast2 = weather.get_weather_in_x_hours(0)
+        forecast2 = forecast.get('1')
         time = forecast2.get('time')
         temperature = forecast2.get('temperature')
         wind_speed = forecast2.get('wind').get('speed')
@@ -459,7 +461,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image2.setPixmap(QtGui.QPixmap(icon))
 
         # SECHS STUNDEN
-        forecast3 = weather.get_weather_in_x_hours(3)
+        forecast3 = forecast.get('2')
         time = forecast3.get('time')
         temperature = forecast3.get('temperature')
         wind_speed = forecast3.get('wind').get('speed')
@@ -481,7 +483,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image3.setPixmap(QtGui.QPixmap(icon))
 
         # NEUN STUNDEN
-        forecast4 = weather.get_weather_in_x_hours(6)
+        forecast4 = forecast.get('3')
         time = forecast4.get('time')
         temperature = forecast4.get('temperature')
         wind_speed = forecast4.get('wind').get('speed')
@@ -503,7 +505,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image4.setPixmap(QtGui.QPixmap(icon))
 
         # ZWÖLF STUNDEN
-        forecast5 = weather.get_weather_in_x_hours(9)
+        forecast5 = forecast.get('4')
         time = forecast5.get('time')
         temperature = forecast5.get('temperature')
         wind_speed = forecast5.get('wind').get('speed')
@@ -525,7 +527,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.image5.setPixmap(QtGui.QPixmap(icon))
 
         # 15 STUNDEN
-        forecast6 = weather.get_weather_in_x_hours(12)
+        forecast6 = forecast.get('5')
         time = forecast6.get('time')
         temperature = forecast6.get('temperature')
         wind_speed = forecast6.get('wind').get('speed')

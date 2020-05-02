@@ -9,6 +9,7 @@
 import weather
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
+import datetime
 
 
 class Ui_MainWindow(object):
@@ -354,6 +355,15 @@ class Ui_MainWindow(object):
 
         self.update_current_weather()
         self.update_other_weather()
+        self.update_current_time()
+
+        timer = QtCore.QTimer()
+        timer.timeout.connect(self.update_other_weather)
+        timer.timeout.connect(self.update_current_weather)
+        timer.timeout.connect(self.update_current_time)
+        timer.start(30000)
+
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -424,7 +434,7 @@ class Ui_MainWindow(object):
 
     def update_other_weather(self):
         # DREI STUNDEN
-        forecast2 = weather.get_weather_in_x_hours(1)
+        forecast2 = weather.get_weather_in_x_hours(0.1)
         time = forecast2.get('time')
         temperature = forecast2.get('temperature')
         wind_speed = forecast2.get('wind').get('speed')
@@ -446,7 +456,7 @@ class Ui_MainWindow(object):
         self.image2.setPixmap(QtGui.QPixmap(icon))
 
         # SECHS STUNDEN
-        forecast3 = weather.get_weather_in_x_hours(4)
+        forecast3 = weather.get_weather_in_x_hours(3.1)
         time = forecast3.get('time')
         temperature = forecast3.get('temperature')
         wind_speed = forecast3.get('wind').get('speed')
@@ -468,7 +478,7 @@ class Ui_MainWindow(object):
         self.image3.setPixmap(QtGui.QPixmap(icon))
 
         # NEUN STUNDEN
-        forecast4 = weather.get_weather_in_x_hours(7)
+        forecast4 = weather.get_weather_in_x_hours(6.1)
         time = forecast4.get('time')
         temperature = forecast4.get('temperature')
         wind_speed = forecast4.get('wind').get('speed')
@@ -490,7 +500,7 @@ class Ui_MainWindow(object):
         self.image4.setPixmap(QtGui.QPixmap(icon))
 
         # ZWÖLF STUNDEN
-        forecast5 = weather.get_weather_in_x_hours(10)
+        forecast5 = weather.get_weather_in_x_hours(9.1)
         time = forecast5.get('time')
         temperature = forecast5.get('temperature')
         wind_speed = forecast5.get('wind').get('speed')
@@ -512,7 +522,7 @@ class Ui_MainWindow(object):
         self.image5.setPixmap(QtGui.QPixmap(icon))
 
         # 15 STUNDEN
-        forecast6 = weather.get_weather_in_x_hours(13)
+        forecast6 = weather.get_weather_in_x_hours(12.1)
         time = forecast6.get('time')
         temperature = forecast6.get('temperature')
         wind_speed = forecast6.get('wind').get('speed')
@@ -533,7 +543,10 @@ class Ui_MainWindow(object):
         self.wind6.setText("{}kmh {}".format(wind_speed, wind_direction))
         self.image6.setPixmap(QtGui.QPixmap(icon))
 
-
+    def update_current_time(self):
+        current_time = datetime.datetime.now()
+        current_time = current_time.strftime("%H:%M")
+        self.currentTime.setText(current_time)
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
@@ -541,9 +554,6 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
 
-    timer = QtCore.QTimer()
-    timer.timeout.connect(ui.update_other_weather)
-    timer.timeout.connect(ui.update_current_weather)
-    timer.start(300000)
+
 
     sys.exit(app.exec_())

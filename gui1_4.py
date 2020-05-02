@@ -391,6 +391,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent=parent)
         self.setupUi(self)
+        self.update_current_weather()
+        self.update_other_weather()
         timerTime = QtCore.QTimer(self)
         timerTime.timeout.connect(self.update_current_time)
         timerTime.start(1000)

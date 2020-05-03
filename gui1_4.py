@@ -428,12 +428,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             norain = True
         self.uhrzeit1.setText("{}".format(time))
         self.temperatur1.setText("{}°C".format(temperature))
-        self.wind1.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.wind1.setText("{}kn {}".format(wind_speed, wind_direction))
         if norain:
             self.regen1.setText("{}".format(rain))
         else:
             self.regen1.setText("{} in {}".format(rain, rain_time))
         self.image1.setPixmap(QtGui.QPixmap(icon))
+
+        self.wind1.adjustSize()
 
     def update_other_weather(self):
         forecast = weather.x_hours_weather(15)
@@ -457,7 +459,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.uhrzeit2.setText("{}".format(time))
         self.temperatur2.setText("{}°C".format(temperature))
-        self.wind2.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.wind2.setText("{}kn {}".format(wind_speed, wind_direction))
         self.image2.setPixmap(QtGui.QPixmap(icon))
 
         # SECHS STUNDEN
@@ -479,7 +481,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.uhrzeit3.setText("{}".format(time))
         self.temperatur3.setText("{}°C".format(temperature))
-        self.wind3.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.wind3.setText("{}kn {}".format(wind_speed, wind_direction))
         self.image3.setPixmap(QtGui.QPixmap(icon))
 
         # NEUN STUNDEN
@@ -501,7 +503,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.uhrzeit4.setText("{}".format(time))
         self.temperatur4.setText("{}°C".format(temperature))
-        self.wind4.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.wind4.setText("{}kn {}".format(wind_speed, wind_direction))
         self.image4.setPixmap(QtGui.QPixmap(icon))
 
         # ZWÖLF STUNDEN
@@ -523,7 +525,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.uhrzeit5.setText("{}".format(time))
         self.temperatur5.setText("{}°C".format(temperature))
-        self.wind5.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.wind5.setText("{}kn {}".format(wind_speed, wind_direction))
         self.image5.setPixmap(QtGui.QPixmap(icon))
 
         # 15 STUNDEN
@@ -545,8 +547,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.uhrzeit6.setText("{}".format(time))
         self.temperatur6.setText("{}°C".format(temperature))
-        self.wind6.setText("{}kmh {}".format(wind_speed, wind_direction))
+        self.wind6.setText("{}kn {}".format(wind_speed, wind_direction))
         self.image6.setPixmap(QtGui.QPixmap(icon))
+
+        self.wind2.adjustSize()
+        self.wind3.adjustSize()
+        self.wind4.adjustSize()
+        self.wind5.adjustSize()
+        self.wind6.adjustSize()
 
     def update_current_time(self):
         current_time = datetime.datetime.now()

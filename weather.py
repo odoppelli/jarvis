@@ -48,8 +48,8 @@ def wind_analysieren(wind):
         wind_boe_kmh = int(wind.get('gust') * 3.6)
         wind_boe_kmh = round_num_totwo(wind_boe_kmh)
 
-    wind_kmh = wind.get('speed') * 3.6
-    wind_kmh = int(wind_kmh)
+    wind_kmh = wind.get('speed')
+    wind_kmh = int(wind_kmh * 1.943844)
 
     if (337.5 < wind_richtung <= 360) or (1 <= wind_richtung < 22.5):
         wind_richtung = 'N'

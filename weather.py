@@ -259,11 +259,12 @@ def uvi_three_days(city_id=6553047):
 
 
 # Requests
+'''
 aachen = get_current_weather(6553047)
 print('\ncurrent Weather:')
 for x, y in aachen.items():
     print(x, ':', y)
-'''
+
 print('\nweather forecast (next 6h):')
 next_six_hours = x_hours_weather(6)
 for x, y in next_six_hours.items():

@@ -28,6 +28,7 @@ class WeckerPlayer:
         elif self.MediaTyp == "radio":
             current_radio_mrl = self.player.get_media_player().get_media().get_mrl()
             current_title = self.Tracklist.get(current_radio_mrl)
+        print(current_title)
         return current_title
 
 

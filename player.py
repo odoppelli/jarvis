@@ -88,14 +88,13 @@ class KanguruChroniken(WeckerPlayer):
         kanguru_tracks = {}
         counter = 0
         kanguru_paths.sort()
-        tracks = os.listdir(d)
-        tracks.sort()
-        for x in tracks:
-            kanguru_tracks[kanguru_paths[counter]] = x
+        for x in kanguru_paths:
+            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counte + 1)
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
         self.MediaTyp = "audiobook"
+
 
 class KanguruManifest(WeckerPlayer):
     def __init__(self, cd_number):
@@ -115,10 +114,8 @@ class KanguruManifest(WeckerPlayer):
         kanguru_tracks = {}
         counter = 0
         kanguru_paths.sort()
-        tracks = os.listdir(d)
-        tracks.sort()
-        for x in tracks:
-            kanguru_tracks[kanguru_paths[counter]] = x
+        for x in kanguru_paths:
+            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
@@ -145,10 +142,8 @@ class KanguruOffenbarung(WeckerPlayer):
         kanguru_tracks = {}
         counter = 0
         kanguru_paths.sort()
-        tracks = os.listdir(d)
-        tracks.sort()
-        for x in tracks:
-            kanguru_tracks[kanguru_paths[counter]] = x
+        for x in kanguru_paths:
+            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
@@ -173,10 +168,8 @@ class KanguruApokryphen(WeckerPlayer):
         kanguru_tracks = {}
         counter = 0
         kanguru_paths.sort()
-        tracks = os.listdir(d)
-        tracks.sort()
-        for x in tracks:
-            kanguru_tracks[kanguru_paths[counter]] = x
+        for x in kanguru_paths:
+            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
@@ -201,10 +194,8 @@ class HitchhikersGuide(WeckerPlayer):
         hitchhiker_tracks = {}
         counter = 0
         hitchhiker_paths.sort()
-        tracks = os.listdir(d)
-        tracks.sort()
-        for x in tracks:
-            hitchhiker_tracks[hitchhiker_paths[counter]] = x
+        for x in hitchhiker_paths:
+            hitchhiker_tracks[hitchhiker_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(hitchhiker_paths, hitchhiker_tracks)

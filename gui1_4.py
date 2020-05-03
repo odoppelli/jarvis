@@ -435,7 +435,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.regen1.setText("{} in {}".format(rain, rain_time))
         self.image1.setPixmap(QtGui.QPixmap(icon))
 
-        self.wind1.adjustSize()
 
     def update_other_weather(self):
         forecast = weather.x_hours_weather(15)
@@ -550,11 +549,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.wind6.setText("{}kn {}".format(wind_speed, wind_direction))
         self.image6.setPixmap(QtGui.QPixmap(icon))
 
-        self.wind2.adjustSize()
-        self.wind3.adjustSize()
-        self.wind4.adjustSize()
-        self.wind5.adjustSize()
-        self.wind6.adjustSize()
 
     def update_current_time(self):
         current_time = datetime.datetime.now()

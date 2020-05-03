@@ -1,11 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'gui_1_1.ui'
-#
-# Created by: PyQt5 UI code generator 5.14.1
-#
-# WARNING! All changes made in this file will be lost!
-
+import player
 import weather
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -384,6 +377,9 @@ class Ui_MainWindow(object):
         self.currentTime.setText(_translate("MainWindow", "currentTime"))
         self.auswahlbox1.setItemText(0, _translate("MainWindow", "Radio"))
         self.auswahlbox1.setItemText(1, _translate("MainWindow", "Audiobook"))
+        list = ["---", "---", "---", "---", "---"]
+        self.auswahlbox2.addItems(list)
+        self.auswahlbox3.addItems(list)
         self.loadButton.setText(_translate("MainWindow", "load"))
 
 
@@ -391,16 +387,33 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent=parent)
         self.setupUi(self)
+        self.Media = None
+        # Time
+        self.update_current_time()
+
+        # WEATHER
         self.update_current_weather()
         self.update_other_weather()
-        timerTime = QtCore.QTimer(self)
-        timerTime.timeout.connect(self.update_current_time)
-        timerTime.start(1000)
-        timerWeather = QtCore.QTimer(self)
-        timerWeather.timeout.connect(self.update_current_weather)
-        timerWeather.timeout.connect(self.update_other_weather)
-        timerWeather.start(60000)
+        timer_time = QtCore.QTimer(self)
+        timer_time.timeout.connect(self.update_current_time)
+        timer_time.start(15000)
+        timer_weather = QtCore.QTimer(self)
+        timer_weather.timeout.connect(self.update_current_weather)
+        timer_weather.timeout.connect(self.update_other_weather)
+        timer_weather.start(60000)
 
+        # RADIO | AUDIOBOOKS
+        self.IsLoaded = False
+        self.IsPlaying = False
+        timer_comboboxes = QtCore.QTimer(self)
+        timer_comboboxes.timeout.connect(self.check_comboboxes)
+        timer_comboboxes.timeout.connect(self.update_current_title)
+        timer_comboboxes.start(1000)
+
+        self.loadButton.clicked.connect(self.click_loading_button)
+        self.nextButton.clicked.connect(self.click_next_button)
+        self.previousButton.clicked.connect(self.click_previous_button)
+        self.playpauseButton.clicked.connect(self.click_playpause_button)
 
     def update_current_weather(self):
         current_weather = weather.get_current_weather()
@@ -434,7 +447,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             self.regen1.setText("{} in {}".format(rain, rain_time))
         self.image1.setPixmap(QtGui.QPixmap(icon))
-
 
     def update_other_weather(self):
         forecast = weather.x_hours_weather(15)
@@ -549,12 +561,116 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.wind6.setText("{}kn {}".format(wind_speed, wind_direction))
         self.image6.setPixmap(QtGui.QPixmap(icon))
 
-
     def update_current_time(self):
         current_time = datetime.datetime.now()
         current_time = current_time.strftime("%H:%M")
         self.currentTime.setText(current_time)
 
+    def radio_player(self):
+        self.Media = player.WeckerRadio()
+
+    def get_radio_list(self):
+        return player.WeckerRadio()
+
+    def audiobook_player(self, audiobook, cd_number):
+        if audiobook == "Känguru Chroniken":
+            self.Media = player.KanguruChroniken(cd_number)
+        elif audiobook == "Känguru Manifest":
+            self.Media = player.KanguruManifest(cd_number)
+        elif audiobook == "Känguru Offenbarung":
+            self.Media = player.KanguruOffenbarung(cd_number)
+        elif audiobook == "Känguru Apokryphen":
+            self.Media = player.KanguruOffenbarung(cd_number)
+        elif audiobook == "The Hitchhikers Guide to the Galaxy":
+            self.Media = player.HitchhikersGuide(cd_number)
+
+    def check_comboboxes(self):
+        # RADIO | AUDIOBOOKS
+        auswahl1 = str(self.auswahlbox1.currentText())
+        if auswahl1 == "Radio":
+            self.auswahlbox2.setItemText(0, "---")
+            self.auswahlbox2.setItemText(1, "---")
+            self.auswahlbox2.setItemText(2, "---")
+            self.auswahlbox2.setItemText(3, "---")
+            self.auswahlbox2.setItemText(4, "---")
+            self.auswahlbox3.setItemText(0, "---")
+            self.auswahlbox3.setItemText(1, "---")
+            self.auswahlbox3.setItemText(2, "---")
+            self.auswahlbox3.setItemText(3, "---")
+            self.auswahlbox3.setItemText(4, "---")
+        elif auswahl1 == "Audiobook":
+            self.auswahlbox2.setItemText(0, "Känguru Chroniken")
+            self.auswahlbox2.setItemText(1, "Känguru Manifest")
+            self.auswahlbox2.setItemText(2, "Känguru Offenbarung")
+            self.auswahlbox2.setItemText(3, "Känguru Apokryphen")
+            self.auswahlbox2.setItemText(4, "The Hitchhikers Guide to the Galaxy")
+            auswahl2 = str(self.auswahlbox2.currentText())
+            if (auswahl2 == "Känguru Chroniken" or auswahl2 == "Känguru Manifest" or auswahl2 == "Känguru Apokryphen" or
+                    auswahl2 == "The Hitchhikers Guide to the Galaxy"):
+                self.auswahlbox3.setItemText(0, "CD 1")
+                self.auswahlbox3.setItemText(1, "CD 2")
+                self.auswahlbox3.setItemText(2, "CD 3")
+                self.auswahlbox3.setItemText(3, "CD 4")
+                self.auswahlbox3.setItemText(4, "---")
+            elif auswahl2 == "Känguru Offenbarung":
+                self.auswahlbox3.setItemText(0, "CD 1")
+                self.auswahlbox3.setItemText(1, "CD 3")
+                self.auswahlbox3.setItemText(2, "CD 4")
+                self.auswahlbox3.setItemText(3, "CD 5")
+                self.auswahlbox3.setItemText(4, "CD 6")
+
+    def click_loading_button(self):
+        if not self.IsLoaded:
+            auswahl1 = str(self.auswahlbox1.currentText())
+            if auswahl1 == "Radio":
+                self.radio_player()
+            elif auswahl1 == "Audiobook":
+                self.audiobook_player(self.auswahlbox2.currentText(), int(self.auswahlbox3.currentText()[-1]))
+            self.Media.play_media()
+            self.loadButton.setText("stop")
+            self.IsLoaded = True
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("icons/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.playpauseButton.setIcon(icon)
+            self.IsPlaying = True
+        else:
+            self.Media.stop_media()
+            self.Media = None
+            self.loadButton.setText("load")
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.playpauseButton.setIcon(icon)
+            self.IsPlaying = False
+            self.IsLoaded = False
+
+    def click_next_button(self):
+        if self.IsLoaded:
+            self.Media.next_media()
+
+    def click_previous_button(self):
+        if self.IsLoaded:
+            self.Media.previous_media()
+
+    def click_playpause_button(self):
+        if self.IsPlaying:
+            self.Media.pause_media()
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.playpauseButton.setIcon(icon)
+            self.IsPlaying = False
+        else:
+            self.Media.play_media()
+            icon = QtGui.QIcon()
+            icon.addPixmap(QtGui.QPixmap("icons/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            self.playpauseButton.setIcon(icon)
+            self.IsPlaying = True
+
+    def update_current_title(self):
+        if self.IsLoaded:
+            title = self.Media.get_current_title()
+        else:
+            title = "none"
+        self.currentTrack.setText(title)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)

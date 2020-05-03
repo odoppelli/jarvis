@@ -7,6 +7,7 @@ class WeckerPlayer:
     def __init__(self, playlist, tracklist):
         self.Playlist = playlist
         self.Tracklist = tracklist
+        self.MediaTyp = None
         self.Instance = vlc.Instance('--input-repeat=-1', '--fullscreen')
         self.MediaList = self.Instance.media_list_new()
 
@@ -17,35 +18,34 @@ class WeckerPlayer:
         self.player.set_media_list(self.MediaList)
         self.player.set_playback_mode(vlc.PlaybackMode.loop)
 
-    def get_current_track(self):
-        current_track_mrl = self.player.get_media_player().get_media().get_mrl()
-        current_track_mrl = current_track_mrl.replace("%20", " ")
-        current_track_mrl = current_track_mrl.replace("%C3%A4", "ä")
-        current_track_mrl = current_track_mrl.replace("file://", "")
-        current_track = self.Tracklist.get(current_track_mrl)
-        return current_track
-
-    def get_current_radio(self):
-        current_radio_mrl = self.player.get_media_player().get_media().get_mrl()
-        current_radio = self.Tracklist.get(current_radio_mrl)
-        return current_radio
+    def get_current_title(self):
+        if self.MediaTyp == "audiobook":
+            current_track_mrl = self.player.get_media_player().get_media().get_mrl()
+            current_track_mrl = current_track_mrl.replace("%20", " ")
+            current_track_mrl = current_track_mrl.replace("%C3%A4", "ä")
+            current_track_mrl = current_track_mrl.replace("file://", "")
+            current_title = self.Tracklist.get(current_track_mrl)
+        elif self.MediaTyp == "radio":
+            current_radio_mrl = self.player.get_media_player().get_media().get_mrl()
+            current_title = self.Tracklist.get(current_radio_mrl)
+        return current_title
 
 
     def play_media(self):
-        self.player.play()
+            self.player.play()
 
     def pause_media(self):
-        self.player.pause()
+            self.player.pause()
 
     def stop_media(self):
-        self.player.pause()
-        self.player.stop()
+            self.player.pause()
+            self.player.stop()
 
     def next_media(self):
-        self.player.next()
+            self.player.next()
 
     def previous_media(self):
-        self.player.previous()
+            self.player.previous()
 
 
 class WeckerRadio(WeckerPlayer):
@@ -53,12 +53,8 @@ class WeckerRadio(WeckerPlayer):
         radiosender = {
             'hochschulradio': 'http://evans.hochschulradio.rwth-aachen.de:8000/radio_low.mp3',
             'charts_musik': 'http://charthits-high.rautemusik.fm/',
-            'trance_musik': 'http://trance-high.rautemusik.fm/',
             'deutschrap_musik': 'http://deutschrap-high.rautemusik.fm/',
-            'rock_musik': 'http://rock-high.rautemusik.fm/',
-            'house_musik': 'http://house-high.rautemusik.fm/',
             'sex_musik': 'http://sex-high.rautemusik.fm/',
-            'happy_musik': 'http://happy-high.rautemusik.fm/',
             'eins_live': 'http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3',
         }
         url_list = []
@@ -70,9 +66,16 @@ class WeckerRadio(WeckerPlayer):
             radiosenderlist[url] = name
 
         super().__init__(url_list, radiosenderlist)
+        self.MediaTyp = "radio"
 
 
-class KanguruChroniken(WeckerPlayer):
+class Audiobook(WeckerPlayer):
+    def __init__(self, playlist, tracklist):
+        super().__init__(self, playlist, tracklist)
+        self.MediaTyp = "audiobook"
+
+
+class KanguruChroniken(Audiobook):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/Die Känguru Chroniken/Marc-Uwe Kling- Die Känguru-Chroniken. CD 1",
@@ -99,7 +102,7 @@ class KanguruChroniken(WeckerPlayer):
         super().__init__(kanguru_paths, kanguru_tracks)
 
 
-class KanguruManifest(WeckerPlayer):
+class KanguruManifest(Audiobook):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/Das Känguru Manifest/Marc-Uwe Kling- Das Känguru-Manifest. CD 1",
@@ -126,7 +129,7 @@ class KanguruManifest(WeckerPlayer):
         super().__init__(kanguru_paths, kanguru_tracks)
 
 
-class KanguruOffenbarung(WeckerPlayer):
+class KanguruOffenbarung(Audiobook):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/Die Känguru Offenbarung/Die Känguru-Offenbarung- Live Und Ungekürzt [Disc 1]",
@@ -155,7 +158,7 @@ class KanguruOffenbarung(WeckerPlayer):
         super().__init__(kanguru_paths, kanguru_tracks)
 
 
-class KanguruApokryphen(WeckerPlayer):
+class KanguruApokryphen(Audiobook):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/Die Känguru Apokryphen/CD 1",
@@ -182,7 +185,7 @@ class KanguruApokryphen(WeckerPlayer):
         super().__init__(kanguru_paths, kanguru_tracks)
 
 
-class HitchhikersGuide(WeckerPlayer):
+class HitchhikersGuide(Audiobook):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 1]",
@@ -210,14 +213,14 @@ class HitchhikersGuide(WeckerPlayer):
 
 
 # BEISPIEL | TEST
-
+'''
 wecker = WeckerRadio()
 wecker.play_media()
 track = wecker.get_current_track()
 print(track)
 time.sleep(10)
 wecker.stop_media()
-
+'''
 '''
 kanguru1 = KanguruChroniken(1)
 kanguru1.play_media()
@@ -225,6 +228,7 @@ time.sleep(20)
 kanguru1.next_media()
 time.sleep(20)
 kanguru1.stop_media()
+'''
 '''
 kanguru2 = KanguruManifest(1)
 kanguru2.play_media()
@@ -236,7 +240,7 @@ print(kanguru2.get_current_track())
 time.sleep(5)
 print(kanguru2.get_current_track())
 kanguru2.stop_media()
-
+'''
 '''
 kanguru3 = KanguruOffenbarung(1)
 kanguru3.play_media()

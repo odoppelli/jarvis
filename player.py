@@ -69,13 +69,7 @@ class WeckerRadio(WeckerPlayer):
         self.MediaTyp = "radio"
 
 
-class Audiobook(WeckerPlayer):
-    def __init__(self, playlist, tracklist):
-        super().__init__(self, playlist, tracklist)
-        self.MediaTyp = "audiobook"
-
-
-class KanguruChroniken(Audiobook):
+class KanguruChroniken(WeckerPlayer):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/Die Känguru Chroniken/Marc-Uwe Kling- Die Känguru-Chroniken. CD 1",
@@ -100,9 +94,9 @@ class KanguruChroniken(Audiobook):
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
+        self.MediaTyp = "audiobook"
 
-
-class KanguruManifest(Audiobook):
+class KanguruManifest(WeckerPlayer):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/Das Känguru Manifest/Marc-Uwe Kling- Das Känguru-Manifest. CD 1",
@@ -127,9 +121,10 @@ class KanguruManifest(Audiobook):
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
+        self.MediaTyp = "audiobook"
 
 
-class KanguruOffenbarung(Audiobook):
+class KanguruOffenbarung(WeckerPlayer):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/Die Känguru Offenbarung/Die Känguru-Offenbarung- Live Und Ungekürzt [Disc 1]",
@@ -156,9 +151,10 @@ class KanguruOffenbarung(Audiobook):
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
+        self.MediaTyp = "audiobook"
 
 
-class KanguruApokryphen(Audiobook):
+class KanguruApokryphen(WeckerPlayer):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/Die Känguru Apokryphen/CD 1",
@@ -183,9 +179,10 @@ class KanguruApokryphen(Audiobook):
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
+        self.MediaTyp = "audiobook"
 
 
-class HitchhikersGuide(Audiobook):
+class HitchhikersGuide(WeckerPlayer):
     def __init__(self, cd_number):
         cds = {
             '1': "/home/pi/Audiobooks/The Hitchhikers Guide to the Galaxy/The Hitchhiker's Guide To The Galaxy [Disc 1]",
@@ -210,6 +207,7 @@ class HitchhikersGuide(Audiobook):
             counter += 1
 
         super().__init__(hitchhiker_paths, hitchhiker_tracks)
+        self.MediaTyp = "audiobook"
 
 
 # BEISPIEL | TEST

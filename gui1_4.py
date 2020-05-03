@@ -586,38 +586,39 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def check_comboboxes(self):
         # RADIO | AUDIOBOOKS
-        auswahl1 = str(self.auswahlbox1.currentText())
-        if auswahl1 == "Radio":
-            self.auswahlbox2.setItemText(0, "---")
-            self.auswahlbox2.setItemText(1, "---")
-            self.auswahlbox2.setItemText(2, "---")
-            self.auswahlbox2.setItemText(3, "---")
-            self.auswahlbox2.setItemText(4, "---")
-            self.auswahlbox3.setItemText(0, "---")
-            self.auswahlbox3.setItemText(1, "---")
-            self.auswahlbox3.setItemText(2, "---")
-            self.auswahlbox3.setItemText(3, "---")
-            self.auswahlbox3.setItemText(4, "---")
-        elif auswahl1 == "Audiobook":
-            self.auswahlbox2.setItemText(0, "Känguru Chroniken")
-            self.auswahlbox2.setItemText(1, "Känguru Manifest")
-            self.auswahlbox2.setItemText(2, "Känguru Offenbarung")
-            self.auswahlbox2.setItemText(3, "Känguru Apokryphen")
-            self.auswahlbox2.setItemText(4, "The Hitchhikers Guide to the Galaxy")
-            auswahl2 = str(self.auswahlbox2.currentText())
-            if (auswahl2 == "Känguru Chroniken" or auswahl2 == "Känguru Manifest" or auswahl2 == "Känguru Apokryphen" or
-                    auswahl2 == "The Hitchhikers Guide to the Galaxy"):
-                self.auswahlbox3.setItemText(0, "CD 1")
-                self.auswahlbox3.setItemText(1, "CD 2")
-                self.auswahlbox3.setItemText(2, "CD 3")
-                self.auswahlbox3.setItemText(3, "CD 4")
+        if not self.IsLoaded:
+            auswahl1 = str(self.auswahlbox1.currentText())
+            if auswahl1 == "Radio":
+                self.auswahlbox2.setItemText(0, "---")
+                self.auswahlbox2.setItemText(1, "---")
+                self.auswahlbox2.setItemText(2, "---")
+                self.auswahlbox2.setItemText(3, "---")
+                self.auswahlbox2.setItemText(4, "---")
+                self.auswahlbox3.setItemText(0, "---")
+                self.auswahlbox3.setItemText(1, "---")
+                self.auswahlbox3.setItemText(2, "---")
+                self.auswahlbox3.setItemText(3, "---")
                 self.auswahlbox3.setItemText(4, "---")
-            elif auswahl2 == "Känguru Offenbarung":
-                self.auswahlbox3.setItemText(0, "CD 1")
-                self.auswahlbox3.setItemText(1, "CD 3")
-                self.auswahlbox3.setItemText(2, "CD 4")
-                self.auswahlbox3.setItemText(3, "CD 5")
-                self.auswahlbox3.setItemText(4, "CD 6")
+            elif auswahl1 == "Audiobook":
+                self.auswahlbox2.setItemText(0, "Känguru Chroniken")
+                self.auswahlbox2.setItemText(1, "Känguru Manifest")
+                self.auswahlbox2.setItemText(2, "Känguru Offenbarung")
+                self.auswahlbox2.setItemText(3, "Känguru Apokryphen")
+                self.auswahlbox2.setItemText(4, "The Hitchhikers Guide to the Galaxy")
+                auswahl2 = str(self.auswahlbox2.currentText())
+                if (auswahl2 == "Känguru Chroniken" or auswahl2 == "Känguru Manifest" or auswahl2 == "Känguru Apokryphen" or
+                        auswahl2 == "The Hitchhikers Guide to the Galaxy"):
+                    self.auswahlbox3.setItemText(0, "CD 1")
+                    self.auswahlbox3.setItemText(1, "CD 2")
+                    self.auswahlbox3.setItemText(2, "CD 3")
+                    self.auswahlbox3.setItemText(3, "CD 4")
+                    self.auswahlbox3.setItemText(4, "---")
+                elif auswahl2 == "Känguru Offenbarung":
+                    self.auswahlbox3.setItemText(0, "CD 1")
+                    self.auswahlbox3.setItemText(1, "CD 3")
+                    self.auswahlbox3.setItemText(2, "CD 4")
+                    self.auswahlbox3.setItemText(3, "CD 5")
+                    self.auswahlbox3.setItemText(4, "CD 6")
 
     def click_loading_button(self):
         if not self.IsLoaded:

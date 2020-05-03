@@ -17,15 +17,19 @@ class WeckerPlayer:
         self.player.set_media_list(self.MediaList)
         self.player.set_playback_mode(vlc.PlaybackMode.loop)
 
-    def get_current_track(self):
+    def get_current_track_audiobook(self):
         current_track_mrl = self.player.get_media_player().get_media().get_mrl()
         current_track_mrl = current_track_mrl.replace("%20", " ")
         current_track_mrl = current_track_mrl.replace("%C3%A4", "ä")
         current_track_mrl = current_track_mrl.replace("file://", "")
         current_track = self.Tracklist.get(current_track_mrl)
-        
         return current_track
 
+    def get_current_track_radio(self):
+        current_radio_mrl = self.player.get_media_player().get_media().get_mrl()
+        current_radio = self.Tracklist.get(current_radio_mrl)
+        return current_radio
+        
 
     def play_media(self):
         self.player.play()
@@ -77,7 +81,17 @@ class KanguruChroniken(WeckerPlayer):
             full_path = os.path.join(d, path)
             if os.path.isfile(full_path):
                 kanguru_paths.append(full_path)
-        super().__init__(kanguru_paths)
+
+        kanguru_tracks = {}
+        counter = 0
+        kanguru_paths.sort()
+        tracks = os.listdir(d)
+        tracks.sort()
+        for x in tracks:
+            kanguru_tracks[kanguru_paths[counter]] = x
+            counter += 1
+
+        super().__init__(kanguru_paths, kanguru_tracks)
 
 
 class KanguruManifest(WeckerPlayer):
@@ -90,12 +104,12 @@ class KanguruManifest(WeckerPlayer):
             }
         d = cds.get(str(cd_number))
         kanguru_paths = []
-        kanguru_tracks = {}
         for path in os.listdir(d):
             full_path = os.path.join(d, path)
             if os.path.isfile(full_path):
                 kanguru_paths.append(full_path)
 
+        kanguru_tracks = {}
         counter = 0
         kanguru_paths.sort()
         tracks = os.listdir(d)
@@ -123,7 +137,17 @@ class KanguruOffenbarung(WeckerPlayer):
             full_path = os.path.join(d, path)
             if os.path.isfile(full_path):
                 kanguru_paths.append(full_path)
-        super().__init__(kanguru_paths)
+
+        kanguru_tracks = {}
+        counter = 0
+        kanguru_paths.sort()
+        tracks = os.listdir(d)
+        tracks.sort()
+        for x in tracks:
+            kanguru_tracks[kanguru_paths[counter]] = x
+            counter += 1
+
+        super().__init__(kanguru_paths, kanguru_tracks)
 
 
 class KanguruApokryphen(WeckerPlayer):
@@ -140,7 +164,17 @@ class KanguruApokryphen(WeckerPlayer):
             full_path = os.path.join(d, path)
             if os.path.isfile(full_path):
                 kanguru_paths.append(full_path)
-        super().__init__(kanguru_paths)
+
+        kanguru_tracks = {}
+        counter = 0
+        kanguru_paths.sort()
+        tracks = os.listdir(d)
+        tracks.sort()
+        for x in tracks:
+            kanguru_tracks[kanguru_paths[counter]] = x
+            counter += 1
+
+        super().__init__(kanguru_paths, kanguru_tracks)
 
 
 class HitchhikersGuide(WeckerPlayer):
@@ -157,7 +191,17 @@ class HitchhikersGuide(WeckerPlayer):
             full_path = os.path.join(d, path)
             if os.path.isfile(full_path):
                 hitchhiker_paths.append(full_path)
-        super().__init__(hitchhiker_paths)
+
+        hitchhiker_tracks = {}
+        counter = 0
+        hitchhiker_paths.sort()
+        tracks = os.listdir(d)
+        tracks.sort()
+        for x in tracks:
+            hitchhiker_tracks[hitchhiker_paths[counter]] = x
+            counter += 1
+
+        super().__init__(hitchhiker_paths, hitchhiker_tracks)
 
 
 # BEISPIEL | TEST

@@ -7,7 +7,6 @@ class WeckerPlayer:
     def __init__(self, playlist, tracklist):
         self.Playlist = playlist
         self.Tracklist = tracklist
-
         self.Instance = vlc.Instance('--input-repeat=-1', '--fullscreen')
         self.MediaList = self.Instance.media_list_new()
 
@@ -20,7 +19,11 @@ class WeckerPlayer:
 
     def get_current_track(self):
         current_track_mrl = self.player.get_media_player().get_media().get_mrl()
+        current_track_mrl = current_track_mrl.replace("%20", " ")
+        current_track_mrl = current_track_mrl.replace("%C3%A4", "ä")
+        current_track_mrl = current_track_mrl.replace("file://", "")
         current_track = self.Tracklist.get(current_track_mrl)
+        
         return current_track
 
 
@@ -98,7 +101,7 @@ class KanguruManifest(WeckerPlayer):
         tracks = os.listdir(d)
         tracks.sort()
         for x in tracks:
-            kanguru_paths[counter] = kanguru_tracks[x]
+            kanguru_tracks[kanguru_paths[counter]] = x
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
@@ -176,10 +179,13 @@ kanguru1.stop_media()
 '''
 kanguru2 = KanguruManifest(1)
 kanguru2.play_media()
+time.sleep(5)
 print(kanguru2.get_current_track())
-time.sleep(10)
+time.sleep(5)
 kanguru2.next_media()
-time.sleep(10)
+print(kanguru2.get_current_track())
+time.sleep(5)
+print(kanguru2.get_current_track())
 kanguru2.stop_media()
 
 '''

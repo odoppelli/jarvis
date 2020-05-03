@@ -291,7 +291,7 @@ class Ui_MainWindow(object):
         self.playpauseButton.setIconSize(QtCore.QSize(60, 60))
         self.playpauseButton.setObjectName("playpauseButton")
         self.currentTime = QtWidgets.QLabel(self.frame)
-        self.currentTime.setGeometry(QtCore.QRect(280, 10, 240, 91))
+        self.currentTime.setGeometry(QtCore.QRect(280, 40, 240, 91))
         font = QtGui.QFont()
         font.setFamily("Verdana")
         font.setPointSize(36)

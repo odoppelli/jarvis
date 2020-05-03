@@ -158,7 +158,7 @@ class HitchhikersGuide(WeckerPlayer):
 
 
 # BEISPIEL | TEST
-
+'''
 wecker = WeckerRadio()
 wecker.play_media()
 track = wecker.get_current_track()
@@ -166,21 +166,23 @@ print(track)
 time.sleep(10)
 wecker.stop_media()
 '''
+'''
 kanguru1 = KanguruChroniken(1)
 kanguru1.play_media()
 time.sleep(20)
 kanguru1.next_media()
 time.sleep(20)
 kanguru1.stop_media()
-
+'''
 kanguru2 = KanguruManifest(1)
 kanguru2.play_media()
+print(kanguru2.get_current_track())
 time.sleep(10)
 kanguru2.next_media()
 time.sleep(10)
 kanguru2.stop_media()
 
-
+'''
 kanguru3 = KanguruOffenbarung(1)
 kanguru3.play_media()
 time.sleep(10)

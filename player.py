@@ -4,8 +4,10 @@ import os
 
 
 class WeckerPlayer:
-    def __init__(self, playlist):
+    def __init__(self, playlist, tracklist):
         self.Playlist = playlist
+        self.Tracklist = tracklist
+
         self.Instance = vlc.Instance('--input-repeat=-1', '--fullscreen')
         self.MediaList = self.Instance.media_list_new()
 
@@ -14,6 +16,13 @@ class WeckerPlayer:
 
         self.player = self.Instance.media_list_player_new()
         self.player.set_media_list(self.MediaList)
+        self.player.set_playback_mode(vlc.PlaybackMode.loop)
+
+    def get_current_track(self):
+        current_track_mrl = self.player.get_media_player().get_media().get_mrl()
+        current_track = self.Tracklist.get(current_track_mrl)
+        return current_track
+
 
     def play_media(self):
         self.player.play()
@@ -48,7 +57,7 @@ class WeckerRadio(WeckerPlayer):
         url_list = []
         for sender_url in radiosender:
             url_list.append(radiosender[sender_url])
-        super().__init__(url_list)
+        super().__init__(url_list, radiosender)
 
 
 class KanguruChroniken(WeckerPlayer):
@@ -78,11 +87,21 @@ class KanguruManifest(WeckerPlayer):
             }
         d = cds.get(str(cd_number))
         kanguru_paths = []
+        kanguru_tracks = {}
         for path in os.listdir(d):
             full_path = os.path.join(d, path)
             if os.path.isfile(full_path):
                 kanguru_paths.append(full_path)
-        super().__init__(kanguru_paths)
+
+        counter = 0
+        kanguru_paths.sort()
+        tracks = os.listdir(d)
+        tracks.sort()
+        for x in tracks:
+            kanguru_paths[counter] = kanguru_tracks[x]
+            counter += 1
+
+        super().__init__(kanguru_paths, kanguru_tracks)
 
 
 class KanguruOffenbarung(WeckerPlayer):
@@ -120,6 +139,7 @@ class KanguruApokryphen(WeckerPlayer):
                 kanguru_paths.append(full_path)
         super().__init__(kanguru_paths)
 
+
 class HitchhikersGuide(WeckerPlayer):
     def __init__(self, cd_number):
         cds = {
@@ -141,9 +161,11 @@ class HitchhikersGuide(WeckerPlayer):
 
 wecker = WeckerRadio()
 wecker.play_media()
-time.sleep(20)
+track = wecker.get_current_track()
+print(track)
+time.sleep(10)
 wecker.stop_media()
-
+'''
 kanguru1 = KanguruChroniken(1)
 kanguru1.play_media()
 time.sleep(20)
@@ -179,3 +201,4 @@ time.sleep(10)
 hitchhiker.next_media()
 time.sleep(10)
 hitchhiker.stop_media()
+'''

@@ -17,7 +17,7 @@ class WeckerPlayer:
         self.player.set_media_list(self.MediaList)
         self.player.set_playback_mode(vlc.PlaybackMode.loop)
 
-    def get_current_track_audiobook(self):
+    def get_current_track(self):
         current_track_mrl = self.player.get_media_player().get_media().get_mrl()
         current_track_mrl = current_track_mrl.replace("%20", " ")
         current_track_mrl = current_track_mrl.replace("%C3%A4", "ä")
@@ -25,11 +25,11 @@ class WeckerPlayer:
         current_track = self.Tracklist.get(current_track_mrl)
         return current_track
 
-    def get_current_track_radio(self):
+    def get_current_radio(self):
         current_radio_mrl = self.player.get_media_player().get_media().get_mrl()
         current_radio = self.Tracklist.get(current_radio_mrl)
         return current_radio
-        
+
 
     def play_media(self):
         self.player.play()
@@ -64,7 +64,12 @@ class WeckerRadio(WeckerPlayer):
         url_list = []
         for sender_url in radiosender:
             url_list.append(radiosender[sender_url])
-        super().__init__(url_list, radiosender)
+
+        radiosenderlist = {}
+        for name, url in radiosender.items():
+            radiosenderlist[url] = name
+
+        super().__init__(url_list, radiosenderlist)
 
 
 class KanguruChroniken(WeckerPlayer):
@@ -205,14 +210,14 @@ class HitchhikersGuide(WeckerPlayer):
 
 
 # BEISPIEL | TEST
-'''
+
 wecker = WeckerRadio()
 wecker.play_media()
 track = wecker.get_current_track()
 print(track)
 time.sleep(10)
 wecker.stop_media()
-'''
+
 '''
 kanguru1 = KanguruChroniken(1)
 kanguru1.play_media()

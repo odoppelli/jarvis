@@ -652,18 +652,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.Media.previous_media()
 
     def click_playpause_button(self):
-        if self.IsPlaying:
-            self.Media.pause_media()
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap("icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.playpauseButton.setIcon(icon)
-            self.IsPlaying = False
-        else:
-            self.Media.play_media()
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap("icons/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.playpauseButton.setIcon(icon)
-            self.IsPlaying = True
+        if self.IsLoaded:
+            if self.IsPlaying:
+                self.Media.pause_media()
+                icon = QtGui.QIcon()
+                icon.addPixmap(QtGui.QPixmap("icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                self.playpauseButton.setIcon(icon)
+                self.IsPlaying = False
+            else:
+                self.Media.play_media()
+                icon = QtGui.QIcon()
+                icon.addPixmap(QtGui.QPixmap("icons/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                self.playpauseButton.setIcon(icon)
+                self.IsPlaying = True
 
     def update_current_title(self):
         if self.IsLoaded:

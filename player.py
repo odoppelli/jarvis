@@ -89,7 +89,7 @@ class KanguruChroniken(WeckerPlayer):
         counter = 0
         kanguru_paths.sort()
         for x in kanguru_paths:
-            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counte + 1)
+            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)

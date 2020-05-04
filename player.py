@@ -35,7 +35,6 @@ class WeckerPlayer:
             current_track_mrl = current_track_mrl.replace("%C3%BC", "ü")
             current_track_mrl = current_track_mrl.replace("%21", "!")
             current_track_mrl = current_track_mrl.replace("%3F", "?")
-            print(current_track_mrl)
             current_title = self.Tracklist.get(current_track_mrl)
         elif self.MediaTyp == "radio":
             current_radio_mrl = self.player.get_media_player().get_media().get_mrl()

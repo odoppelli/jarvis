@@ -3,6 +3,7 @@ import weather
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 import datetime
+import time
 
 
 class Ui_MainWindow(object):
@@ -415,6 +416,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.previousButton.clicked.connect(self.click_previous_button)
         self.playpauseButton.clicked.connect(self.click_playpause_button)
 
+        self.click_loading_button()
+
     def update_current_weather(self):
         current_weather = weather.get_current_weather()
         time = current_weather.get('time')
@@ -675,6 +678,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.currentTrack.setText(title)
 
 if __name__ == "__main__":
+    time.sleep(15)
     app = QtWidgets.QApplication(sys.argv)
     w = MainWindow()
     w.show()

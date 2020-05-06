@@ -39,7 +39,6 @@ class WeckerPlayer:
         elif self.MediaTyp == "radio":
             current_radio_mrl = self.player.get_media_player().get_media().get_mrl()
             current_title = self.Tracklist.get(current_radio_mrl)
-        print(current_title)
         return current_title
 
 
@@ -63,11 +62,12 @@ class WeckerPlayer:
 class WeckerRadio(WeckerPlayer):
     def __init__(self):
         radiosender = {
+            'eins_live': 'http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3',
             'hochschulradio': 'http://evans.hochschulradio.rwth-aachen.de:8000/radio_low.mp3',
             'charts_musik': 'http://charthits-high.rautemusik.fm/',
             'deutschrap_musik': 'http://deutschrap-high.rautemusik.fm/',
             'sex_musik': 'http://sex-high.rautemusik.fm/',
-            'eins_live': 'http://wdr-1live-live.icecast.wdr.de/wdr/1live/live/mp3/128/stream.mp3',
+            
         }
         url_list = []
         for sender_url in radiosender:

@@ -401,7 +401,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         timer_weather = QtCore.QTimer(self)
         timer_weather.timeout.connect(self.update_current_weather)
         timer_weather.timeout.connect(self.update_other_weather)
-        timer_weather.start(60000)
+        timer_weather.start(900000)
 
         # RADIO | AUDIOBOOKS
         self.IsLoaded = False

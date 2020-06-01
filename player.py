@@ -16,7 +16,7 @@ class WeckerPlayer:
 
         self.player = self.Instance.media_list_player_new()
         self.player.set_media_list(self.MediaList)
-        self.player.set_playback_mode(vlc.PlaybackMode.loop)
+        #self.player.set_playback_mode(vlc.PlaybackMode.loop)
 
     def get_current_title(self):
         if self.MediaTyp == "audiobook":
@@ -57,6 +57,9 @@ class WeckerPlayer:
 
     def previous_media(self):
             self.player.previous()
+
+    def play_at_index(self, index):
+            self.player.play_item_at_index(index)
 
 
 class WeckerRadio(WeckerPlayer):

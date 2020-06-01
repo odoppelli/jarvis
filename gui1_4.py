@@ -1,5 +1,6 @@
 import player
 import weather
+import lasttrack
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 import datetime
@@ -576,15 +577,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         return player.WeckerRadio()
 
     def audiobook_player(self, audiobook, cd_number):
-        if audiobook == "Känguru Chroniken":
+        if audiobook == "Känguru_Chroniken":
             self.Media = player.KanguruChroniken(cd_number)
-        elif audiobook == "Känguru Manifest":
+        elif audiobook == "Känguru_Manifest":
             self.Media = player.KanguruManifest(cd_number)
-        elif audiobook == "Känguru Offenbarung":
+        elif audiobook == "Känguru_Offenbarung":
             self.Media = player.KanguruOffenbarung(cd_number)
-        elif audiobook == "Känguru Apokryphen":
+        elif audiobook == "Känguru_Apokryphen":
             self.Media = player.KanguruOffenbarung(cd_number)
-        elif audiobook == "The Hitchhikers Guide to the Galaxy":
+        elif audiobook == "The_Hitchhikers_Guide_to_the_Galaxy":
             self.Media = player.HitchhikersGuide(cd_number)
 
     def check_comboboxes(self):
@@ -603,11 +604,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.auswahlbox3.setItemText(3, "---")
                 self.auswahlbox3.setItemText(4, "---")
             elif auswahl1 == "Audiobook":
-                self.auswahlbox2.setItemText(0, "Känguru Chroniken")
-                self.auswahlbox2.setItemText(1, "Känguru Manifest")
-                self.auswahlbox2.setItemText(2, "Känguru Offenbarung")
-                self.auswahlbox2.setItemText(3, "Känguru Apokryphen")
-                self.auswahlbox2.setItemText(4, "The Hitchhikers Guide to the Galaxy")
+                self.auswahlbox2.setItemText(0, "Känguru_Chroniken")
+                self.auswahlbox2.setItemText(1, "Känguru_Manifest")
+                self.auswahlbox2.setItemText(2, "Känguru_Offenbarung")
+                self.auswahlbox2.setItemText(3, "Känguru_Apokryphen")
+                self.auswahlbox2.setItemText(4, "The_Hitchhikers_Guide_to_the_Galaxy")
                 auswahl2 = str(self.auswahlbox2.currentText())
                 if (auswahl2 == "Känguru Chroniken" or auswahl2 == "Känguru Manifest" or auswahl2 == "Känguru Apokryphen" or
                         auswahl2 == "The Hitchhikers Guide to the Galaxy"):
@@ -626,18 +627,28 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def click_loading_button(self):
         if not self.IsLoaded:
             auswahl1 = str(self.auswahlbox1.currentText())
-            if auswahl1 == "Radio":
-                self.radio_player()
-            elif auswahl1 == "Audiobook":
-                self.audiobook_player(self.auswahlbox2.currentText(), int(self.auswahlbox3.currentText()[-1]))
-            self.Media.play_media()
-            self.loadButton.setText("stop")
-            self.IsLoaded = True
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap("icons/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.playpauseButton.setIcon(icon)
-            self.IsPlaying = True
+            auswahl3 = str(self.auswahlbox3.currentText())
+            if auswahl3 is not "---":
+                if auswahl1 == "Radio":
+                    self.radio_player()
+                    self.Media.play()
+                elif auswahl1 == "Audiobook":
+                    self.audiobook_player(self.auswahlbox2.currentText(), int(self.auswahlbox3.currentText()[-1]))
+                    last_track = lasttrack.get_last_track(self.auswahlbox2.currentText(), int(self.auswahlbox3.currentText()[-1]))
+                    self.Media.play_at_index(last_track)
+                self.loadButton.setText("stop")
+                self.IsLoaded = True
+                icon = QtGui.QIcon()
+                icon.addPixmap(QtGui.QPixmap("icons/pause.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                self.playpauseButton.setIcon(icon)
+                self.IsPlaying = True
+            else:
+                pass
         else:
+            if str(self.auswahlbox1.currentText()) is "Audiobook":
+                title_index = self.currentTrack.currentText()
+                title_index = int(title_index[-1])-1
+                lasttrack.set_last_track(self.auswahlbox2.currentText(), int(self.auswahlbox3.currentText()[-1]), title_index)
             self.Media.stop_media()
             self.Media = None
             self.loadButton.setText("load")

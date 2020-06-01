@@ -610,14 +610,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.auswahlbox2.setItemText(3, "Känguru_Apokryphen")
                 self.auswahlbox2.setItemText(4, "The_Hitchhikers_Guide_to_the_Galaxy")
                 auswahl2 = str(self.auswahlbox2.currentText())
-                if (auswahl2 == "Känguru Chroniken" or auswahl2 == "Känguru Manifest" or auswahl2 == "Känguru Apokryphen" or
-                        auswahl2 == "The Hitchhikers Guide to the Galaxy"):
+                if (auswahl2 == "Känguru_Chroniken" or auswahl2 == "Känguru_Manifest" or auswahl2 == "Känguru_Apokryphen" or
+                        auswahl2 == "The_Hitchhikers_Guide_to_the_Galaxy"):
                     self.auswahlbox3.setItemText(0, "CD 1")
                     self.auswahlbox3.setItemText(1, "CD 2")
                     self.auswahlbox3.setItemText(2, "CD 3")
                     self.auswahlbox3.setItemText(3, "CD 4")
                     self.auswahlbox3.setItemText(4, "---")
-                elif auswahl2 == "Känguru Offenbarung":
+                elif auswahl2 == "Känguru_Offenbarung":
                     self.auswahlbox3.setItemText(0, "CD 1")
                     self.auswahlbox3.setItemText(1, "CD 3")
                     self.auswahlbox3.setItemText(2, "CD 4")
@@ -631,7 +631,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             if auswahl3 is not "---":
                 if auswahl1 == "Radio":
                     self.radio_player()
-                    self.Media.play()
+                    self.Media.play_media()
                 elif auswahl1 == "Audiobook":
                     self.audiobook_player(self.auswahlbox2.currentText(), int(self.auswahlbox3.currentText()[-1]))
                     last_track = lasttrack.get_last_track(self.auswahlbox2.currentText(), int(self.auswahlbox3.currentText()[-1]))
@@ -645,10 +645,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 pass
         else:
-            if str(self.auswahlbox1.currentText()) is "Audiobook":
-                title_index = self.currentTrack.currentText()
-                title_index = int(title_index[-1])-1
-                lasttrack.set_last_track(self.auswahlbox2.currentText(), int(self.auswahlbox3.currentText()[-1]), title_index)
+            if self.Media.MediaTyp == "audiobook":
+                title_index = self.currentTrack.text()[-1]
+                title_index = int(title_index) -1
+                lasttrack.set_last_tracks(str(self.auswahlbox2.currentText()), int(self.auswahlbox3.currentText()[-1]), title_index)
             self.Media.stop_media()
             self.Media = None
             self.loadButton.setText("load")

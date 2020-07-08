@@ -646,8 +646,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                 pass
         else:
             if self.Media.MediaTyp == "audiobook":
-                title_index = self.currentTrack.text()[-1]
-                title_index = int(title_index) -1
+                title_index = self.currentTrack.text()[-2:]
+                title_index = abs(int(title_index) -1)
                 lasttrack.set_last_tracks(str(self.auswahlbox2.currentText()), int(self.auswahlbox3.currentText()[-1]), title_index)
             self.Media.stop_media()
             self.Media = None

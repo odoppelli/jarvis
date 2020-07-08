@@ -103,7 +103,10 @@ class KanguruChroniken(WeckerPlayer):
         counter = 0
         kanguru_paths.sort()
         for x in kanguru_paths:
-            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
+            if counter < 10:
+                kanguru_tracks[kanguru_paths[counter]] = "Track 0" + str(counter + 1)
+            else:
+                kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
@@ -129,7 +132,10 @@ class KanguruManifest(WeckerPlayer):
         counter = 0
         kanguru_paths.sort()
         for x in kanguru_paths:
-            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
+            if counter < 10:
+                kanguru_tracks[kanguru_paths[counter]] = "Track 0" + str(counter + 1)
+            else:
+                kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
@@ -157,7 +163,10 @@ class KanguruOffenbarung(WeckerPlayer):
         counter = 0
         kanguru_paths.sort()
         for x in kanguru_paths:
-            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
+            if counter < 10:
+                kanguru_tracks[kanguru_paths[counter]] = "Track 0" + str(counter + 1)
+            else:
+                kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
@@ -183,7 +192,10 @@ class KanguruApokryphen(WeckerPlayer):
         counter = 0
         kanguru_paths.sort()
         for x in kanguru_paths:
-            kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
+            if counter < 10:
+                kanguru_tracks[kanguru_paths[counter]] = "Track 0" + str(counter + 1)
+            else:
+                kanguru_tracks[kanguru_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(kanguru_paths, kanguru_tracks)
@@ -209,7 +221,10 @@ class HitchhikersGuide(WeckerPlayer):
         counter = 0
         hitchhiker_paths.sort()
         for x in hitchhiker_paths:
-            hitchhiker_tracks[hitchhiker_paths[counter]] = "Track " + str(counter + 1)
+            if counter < 10:
+                hitchhiker_tracks[hitchhiker_paths[counter]] = "Track 0" + str(counter + 1)
+            else:
+                hitchhiker_tracks[hitchhiker_paths[counter]] = "Track " + str(counter + 1)
             counter += 1
 
         super().__init__(hitchhiker_paths, hitchhiker_tracks)
